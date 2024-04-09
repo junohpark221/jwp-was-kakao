@@ -2,7 +2,9 @@ package webserver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,8 +52,9 @@ public class HttpRequest {
 		return new HttpRequest(method, requestUrl[0], new HashMap<>(), header);
 	}
 
-	public static Map<String, String> extractQueryParameters(String parameters) {
+	public static Map<String, String> extractQueryParameters(String parameters) throws UnsupportedEncodingException {
 		Map<String, String> queryParameters = new HashMap<>();
+		parameters = URLDecoder.decode(parameters, "UTF-8");
 
 		for (String queryParameter : parameters.split("&")) {
 			String[] splitedQueryParameter = queryParameter.split("=");
