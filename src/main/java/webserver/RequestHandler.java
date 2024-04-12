@@ -7,13 +7,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.URISyntaxException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import webserver.controller.GetRequestController;
-import webserver.controller.PostRequestController;
 
 public class RequestHandler implements Runnable {
 	private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
@@ -33,19 +29,10 @@ public class RequestHandler implements Runnable {
 			DataOutputStream dos = new DataOutputStream(out);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
-			HttpRequest httpRequest = HttpRequest.from(br);
-
-			if (httpRequest.getMethod().equals("GET")) {
-				GetRequestController.run(httpRequest, dos, logger);
-			}
-
-			if (httpRequest.getMethod().equals("POST")) {
-				PostRequestController.run(httpRequest, dos, logger);
-			}
+			RequestMappingHandler requestMappingHandler = new RequestMappingHandler(br, dos);
+			requestMappingHandler.run();
 		} catch (IOException e) {
 			logger.error(e.getMessage());
-		} catch (URISyntaxException e) {
-			throw new RuntimeException(e);
 		}
 	}
 }
