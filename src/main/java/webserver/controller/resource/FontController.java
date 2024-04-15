@@ -1,7 +1,7 @@
 package webserver.controller.resource;
 
 import webserver.http.request.HttpRequest;
-import webserver.http.HttpResponse;
+import webserver.http.response.HttpResponse;
 import webserver.controller.RequestController;
 
 import java.util.HashMap;

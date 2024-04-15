@@ -1,7 +1,7 @@
 package webserver.controller;
 
 import webserver.http.request.HttpRequest;
-import webserver.http.HttpResponse;
+import webserver.http.response.HttpResponse;
 
 public class DefaultRequestController extends RequestController {
     @Override

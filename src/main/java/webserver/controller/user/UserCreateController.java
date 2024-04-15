@@ -5,7 +5,7 @@ import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.http.request.HttpRequest;
-import webserver.http.HttpResponse;
+import webserver.http.response.HttpResponse;
 import webserver.controller.RequestController;
 
 import java.util.Map;
