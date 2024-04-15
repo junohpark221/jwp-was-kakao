@@ -4,7 +4,7 @@ import webserver.controller.DefaultRequestController;
 import webserver.controller.RequestController;
 import webserver.controller.resource.*;
 import webserver.controller.user.UserCreateController;
-import webserver.http.HttpRequest;
+import webserver.http.request.HttpRequest;
 import webserver.http.HttpResponse;
 
 import java.io.BufferedReader;

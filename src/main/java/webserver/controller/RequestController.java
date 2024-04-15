@@ -1,6 +1,6 @@
 package webserver.controller;
 
-import webserver.http.HttpRequest;
+import webserver.http.request.HttpRequest;
 import webserver.http.HttpResponse;
 
 public abstract class RequestController {

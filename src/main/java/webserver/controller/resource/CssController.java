@@ -1,6 +1,6 @@
 package webserver.controller.resource;
 
-import webserver.http.HttpRequest;
+import webserver.http.request.HttpRequest;
 import webserver.http.HttpResponse;
 import webserver.controller.RequestController;
 
