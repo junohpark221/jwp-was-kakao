@@ -12,7 +12,6 @@ public class HtmlController extends RequestController {
 
     @Override
     public void doGet(HttpRequest httpRequest, HttpResponse httpResponse) {
-        System.out.println(httpRequest.getPath());
         httpResponse.responseResource(httpRequest.getPath(), ResourceType.HTML);
     }
 }

@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import utils.IOUtils;
-
 public class HttpRequest {
 	private static final String REQUEST_LINE_KEY = "Request-Line";
 
@@ -60,5 +58,9 @@ public class HttpRequest {
 
 	public Map<String, String> getContents() {
 		return requestContents.getContents();
+	}
+
+	public String getCookieSessionId() {
+		return this.requestHeader.getCookieSessionId();
 	}
 }
