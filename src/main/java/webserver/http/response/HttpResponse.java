@@ -14,11 +14,11 @@ import webserver.controller.resource.ResourceType;
 public class HttpResponse {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HttpResponse.class);
 	private DataOutputStream dos;
-	private Map<String, String> cookies;
+	private List<String> cookies;
 
 	public HttpResponse(DataOutputStream dos) {
 		this.dos = dos;
-		this.cookies = new LinkedHashMap<>();
+		this.cookies = new ArrayList<>();
 	}
 
 	public void responseResource(String path, ResourceType resourceType) {
@@ -32,6 +32,19 @@ public class HttpResponse {
 			dos.write(body, 0, body.length);
 			dos.flush();
 		} catch (IOException | URISyntaxException e) {
+			LOGGER.error(e.getMessage());
+		}
+	}
+
+	public void responseResource(byte[] body, ResourceType resourceType) {
+		try {
+			dos.writeBytes(String.format("HTTP/1.1 %s \r\n", HttpStatus.OK));
+			dos.writeBytes(String.format("Content-Type: %s\r\n", resourceType.getContentType()));
+			dos.writeBytes(String.format("Content-Length: %d\r\n", body.length));
+			dos.writeBytes("\r\n");
+			dos.write(body, 0, body.length);
+			dos.flush();
+		} catch (IOException e) {
 			LOGGER.error(e.getMessage());
 		}
 	}
@@ -53,17 +66,12 @@ public class HttpResponse {
 	}
 
 	private void setCookie() throws IOException {
-		List<String> cookie = new ArrayList<>();
-		for (Map.Entry<String, String> entry : this.cookies.entrySet()) {
-			cookie.add(entry.getKey() + "=" + entry.getValue() + ";");
-		}
-
-		if (!cookie.isEmpty()) {
-			dos.writeBytes(String.format("Set-Cookie: %s\r\n", String.join(" ", cookie)));
+		for (String cookie : this.cookies) {
+			dos.writeBytes(cookie);
 		}
 	}
 
-	public void addCookie(String key, String value) {
-		this.cookies.put(key, value);
+	public void addCookie(String cookie) {
+		this.cookies.add(String.format("Set-Cookie: %s\r\n", cookie));
 	}
 }

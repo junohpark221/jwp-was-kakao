@@ -36,13 +36,17 @@ public class UserLoginController extends RequestController {
 
     private void checkPassword(User user, String password, HttpRequest httpRequest, HttpResponse httpResponse) {
         if (user.getPassword().equals(password)) {
-            httpResponse.addCookie("JSESSIONID", getCookieSessionId(httpRequest));
-            httpResponse.addCookie("Path", "/");
+            httpResponse.addCookie(createSessionCookie(httpRequest));
+            httpResponse.addCookie(createLoginCookie());
             httpResponse.redirect(INDEX_HTML_PATH);
             return;
         }
 
         httpResponse.redirect(LOGIN_FAILED_HTML);
+    }
+
+    private String createSessionCookie(HttpRequest httpRequest) {
+        return "JSESSIONID=" + getCookieSessionId(httpRequest) + "; Path=/";
     }
 
     private String getCookieSessionId(HttpRequest httpRequest) {
@@ -51,5 +55,9 @@ public class UserLoginController extends RequestController {
         }
 
         return httpRequest.getCookieSessionId();
+    }
+
+    private String createLoginCookie() {
+        return "logined=true; Path=/";
     }
 }

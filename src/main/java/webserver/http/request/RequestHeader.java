@@ -43,4 +43,12 @@ public class RequestHeader {
     public String getCookieSessionId() {
         return this.cookie.getOrDefault("JSESSIONID", "");
     }
+
+    public String getCookieIsLogin() {
+        return this.cookie.getOrDefault("logined", "false");
+    }
+
+    public Map<String, String> getCookie() {
+        return cookie;
+    }
 }

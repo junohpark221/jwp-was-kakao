@@ -63,4 +63,12 @@ public class HttpRequest {
 	public String getCookieSessionId() {
 		return this.requestHeader.getCookieSessionId();
 	}
+
+	public boolean isLogin() {
+		return Boolean.parseBoolean(this.requestHeader.getCookieIsLogin());
+	}
+
+	public Map<String, String> getCookie() {
+		return this.requestHeader.getCookie();
+	}
 }
