@@ -11,12 +11,14 @@ public class HttpRequest {
 	private final RequestLine requestLine;
 	private final RequestHeader requestHeader;
 	private final RequestContents requestContents;
+	private final Cookie cookie;
 
 	public HttpRequest(BufferedReader br) throws IOException {
 		Map<String, String> request = getRequestHeader(br);
 		this.requestLine = new RequestLine(request);
 		this.requestHeader = new RequestHeader(request);
 		this.requestContents = new RequestContents(br, request);
+		this.cookie = new Cookie(request);
 	}
 
 	private Map<String, String> getRequestHeader(BufferedReader br) throws IOException {
@@ -61,10 +63,10 @@ public class HttpRequest {
 	}
 
 	public String getCookieSessionId() {
-		return this.requestHeader.getCookieSessionId();
+		return this.cookie.getCookieSessionId();
 	}
 
 	public boolean isLogin() {
-		return Boolean.parseBoolean(this.requestHeader.getCookieIsLogin());
+		return Boolean.parseBoolean(this.cookie.getCookieIsLogin());
 	}
 }
