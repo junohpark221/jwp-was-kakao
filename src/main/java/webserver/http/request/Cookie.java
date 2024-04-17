@@ -34,7 +34,7 @@ public class Cookie {
         return this.contents.getOrDefault("logined", "false");
     }
 
-    public Map<String, String> getCookie() {
+    public Map<String, String> getContents() {
         return contents;
     }
 }
