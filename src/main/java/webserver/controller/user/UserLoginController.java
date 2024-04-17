@@ -32,9 +32,7 @@ public class UserLoginController extends RequestController {
             String password = loginInfo.getOrDefault("password", null);
             User user = DataBase.findUserById(userId);
 
-            String sessionId = getCookieSessionId(httpRequest);
-            checkPassword(user, password, sessionId, httpResponse);
-            addUserToSession(sessionId, user);
+            checkLogin(user, password, httpRequest, httpResponse);
         } catch (NullPointerException e) {
             httpResponse.redirect(LOGIN_FAILED_HTML);
         }
@@ -55,23 +53,28 @@ public class UserLoginController extends RequestController {
         httpResponse.responseResource(LOGIN_HTML_PATH, ResourceType.HTML);
     }
 
+    private void checkLogin(User user, String password, HttpRequest httpRequest, HttpResponse httpResponse) {
+        if (user.checkPassword(password)) {
+            String sessionId = getCookieSessionId(httpRequest);
+
+            httpResponse.addCookie(createSessionCookie(sessionId));
+            httpResponse.addCookie(createLoginCookie());
+
+            addUserToSession(sessionId, user);
+
+            httpResponse.redirect(INDEX_HTML_PATH);
+            return;
+        }
+
+        httpResponse.redirect(LOGIN_FAILED_HTML);
+    }
+
     private String getCookieSessionId(HttpRequest httpRequest) {
         if (httpRequest.getCookieSessionId().isEmpty()) {
             return UUID.randomUUID().toString();
         }
 
         return httpRequest.getCookieSessionId();
-    }
-
-    private void checkPassword(User user, String password, String sessionId, HttpResponse httpResponse) {
-        if (user.getPassword().equals(password)) {
-            httpResponse.addCookie(createSessionCookie(sessionId));
-            httpResponse.addCookie(createLoginCookie());
-            httpResponse.redirect(INDEX_HTML_PATH);
-            return;
-        }
-
-        httpResponse.redirect(LOGIN_FAILED_HTML);
     }
 
     private String createSessionCookie(String sessionId) {
