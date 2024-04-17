@@ -11,6 +11,7 @@ import webserver.controller.RequestController;
 import webserver.controller.resource.ResourceType;
 import webserver.http.request.HttpRequest;
 import webserver.http.response.HttpResponse;
+import webserver.session.SessionManager;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class UserListController extends RequestController {
 
     @Override
     public void doGet(HttpRequest httpRequest, HttpResponse httpResponse) {
-        if (httpRequest.isLogin()) {
+        if (isLogin(httpRequest)) {
             render(httpResponse);
             return;
         }
@@ -35,7 +36,7 @@ public class UserListController extends RequestController {
         httpResponse.redirect(LOGIN_HTML_PATH);
     }
 
-    public void render(HttpResponse httpResponse) {
+    private void render(HttpResponse httpResponse) {
         try {
             TemplateLoader loader = new ClassPathTemplateLoader();
             loader.setPrefix("/templates");
@@ -50,6 +51,10 @@ public class UserListController extends RequestController {
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
+    }
 
+    private boolean isLogin(HttpRequest httpRequest) {
+        String sessionId = httpRequest.getCookieSessionId();
+        return (SessionManager.findSession(sessionId) != null);
     }
 }
