@@ -61,8 +61,19 @@ public class RequestContents {
         }
         return queryParameters;
     }
+    public String extractUserId() {
+        return this.contents.getOrDefault("userId", null);
+    }
 
-    public Map<String, String> getContents() {
-        return this.contents;
+    public String extractPassword() {
+        return this.contents.getOrDefault("password", null);
+    }
+
+    public String extractUserName() {
+        return this.contents.getOrDefault("name", null);
+    }
+
+    public String extractEmail() {
+        return this.contents.getOrDefault("email", null);
     }
 }

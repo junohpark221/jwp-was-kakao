@@ -5,6 +5,7 @@ import model.User;
 import webserver.controller.RequestController;
 import webserver.controller.resource.ResourceType;
 import webserver.http.request.HttpRequest;
+import webserver.http.request.RequestContents;
 import webserver.http.response.HttpResponse;
 import webserver.session.Session;
 import webserver.session.SessionManager;
@@ -26,10 +27,11 @@ public class UserLoginController extends RequestController {
     @Override
     public void doPost(HttpRequest httpRequest, HttpResponse httpResponse) {
         try {
-            Map<String, String> loginInfo = httpRequest.getContents();
+            RequestContents requestContents = httpRequest.getContents();
 
-            String userId = loginInfo.getOrDefault("userId", null);
-            String password = loginInfo.getOrDefault("password", null);
+            String userId = requestContents.extractUserId();
+            String password = requestContents.extractPassword();
+
             User user = DataBase.findUserById(userId);
 
             checkLogin(user, password, httpRequest, httpResponse);

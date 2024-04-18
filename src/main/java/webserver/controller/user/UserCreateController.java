@@ -5,6 +5,7 @@ import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.http.request.HttpRequest;
+import webserver.http.request.RequestContents;
 import webserver.http.response.HttpResponse;
 import webserver.controller.RequestController;
 
@@ -32,9 +33,11 @@ public class UserCreateController extends RequestController {
         }
     }
 
-    private User createUser(Map<String, String> userInfo) {
-        validateUserInfo(userInfo.get("userId"));
-        return new User(userInfo.get("userId"), userInfo.get("password"), userInfo.get("name"), userInfo.get("email"));
+    private User createUser(RequestContents requestContents) {
+        validateUserInfo(requestContents.extractUserId());
+        return new User(
+                requestContents.extractUserId(), requestContents.extractPassword(), requestContents.extractUserName(), requestContents.extractEmail()
+        );
     }
 
     public void validateUserInfo(String userId) {

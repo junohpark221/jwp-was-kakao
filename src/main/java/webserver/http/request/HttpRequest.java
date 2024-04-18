@@ -58,8 +58,8 @@ public class HttpRequest {
 		return requestHeader.getHeader();
 	}
 
-	public Map<String, String> getContents() {
-		return requestContents.getContents();
+	public RequestContents getContents() {
+		return this.requestContents;
 	}
 
 	public String getCookieSessionId() {
