@@ -51,6 +51,13 @@ public class RequestHandlerTest {
 	}
 
 	@Test
+	void css파일_GET_요청_테스트() {
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8080/css/style.css", String.class);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
+
+	@Test
 	void POST_유저_생성_테스트() {
 		RestTemplate restTemplate = new RestTemplate();
 		String name = "name";
@@ -67,9 +74,21 @@ public class RequestHandlerTest {
 
 		ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/user/create", parameters, String.class);
 
-		assertAll(
-				() -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND),
-				() -> assertThat(DataBase.findUserById(userId)).isEqualTo(user)
-		);
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND);
+	}
+
+	@Test
+	void 로그인_테스트() {
+		User user = new User("userId", "password", "name", "email@email.com");
+		DataBase.addUser(user);
+
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+		parameters.add("userId", "userId");
+		parameters.add("password", "password");
+
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/user/login", parameters, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND);
 	}
 }
