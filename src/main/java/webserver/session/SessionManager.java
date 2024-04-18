@@ -1,5 +1,7 @@
 package webserver.session;
 
+import webserver.http.request.HttpRequest;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,5 +18,10 @@ public class SessionManager {
 
     public static void remove(final String id) {
         SESSIONS.remove(id);
+    }
+
+    public static boolean isLogin(HttpRequest httpRequest) {
+        String sessionId = httpRequest.getCookieSessionId();
+        return (SessionManager.findSession(sessionId) != null);
     }
 }

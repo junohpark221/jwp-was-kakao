@@ -30,7 +30,7 @@ public class UsersController extends RequestController {
 
     @Override
     public void doGet(HttpRequest httpRequest, HttpResponse httpResponse) {
-        if (isLogin(httpRequest)) {
+        if (SessionManager.isLogin(httpRequest)) {
             render(httpResponse);
             return;
         }
@@ -52,10 +52,5 @@ public class UsersController extends RequestController {
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
-    }
-
-    private boolean isLogin(HttpRequest httpRequest) {
-        String sessionId = httpRequest.getCookieSessionId();
-        return (SessionManager.findSession(sessionId) != null);
     }
 }
