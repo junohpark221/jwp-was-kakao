@@ -32,6 +32,10 @@ public class UserLoginController extends RequestController {
             String userId = requestContents.extractUserId();
             String password = requestContents.extractPassword();
 
+            System.out.println(userId);
+            System.out.println(password);
+            System.out.println(DataBase.findAllUser());
+
             User user = DataBase.findUserById(userId);
 
             checkLogin(user, password, httpRequest, httpResponse);
@@ -42,17 +46,14 @@ public class UserLoginController extends RequestController {
 
     @Override
     public void doGet(HttpRequest httpRequest, HttpResponse httpResponse) {
-        String sessionId = httpRequest.getCookieSessionId();
-        if (sessionId.isEmpty()) {
+        try {
+            String sessionId = httpRequest.getCookieSessionId();
+            System.out.println(sessionId);
+            Session session = SessionManager.findSession(sessionId);
+            httpResponse.redirect(INDEX_HTML_PATH);
+        } catch (NullPointerException e) {
             httpResponse.responseResource(LOGIN_HTML_PATH, ResourceType.HTML);
         }
-
-        Session session = SessionManager.findSession(sessionId);
-        if (session != null) {
-            httpResponse.redirect(INDEX_HTML_PATH);
-        }
-
-        httpResponse.responseResource(LOGIN_HTML_PATH, ResourceType.HTML);
     }
 
     private void checkLogin(User user, String password, HttpRequest httpRequest, HttpResponse httpResponse) {
@@ -72,7 +73,7 @@ public class UserLoginController extends RequestController {
     }
 
     private String getCookieSessionId(HttpRequest httpRequest) {
-        if (httpRequest.getCookieSessionId().isEmpty()) {
+        if (httpRequest.getCookieSessionId() == null) {
             return UUID.randomUUID().toString();
         }
 

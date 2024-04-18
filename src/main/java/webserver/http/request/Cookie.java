@@ -27,7 +27,7 @@ public class Cookie {
     }
 
     public String getCookieSessionId() {
-        return this.contents.getOrDefault("JSESSIONID", "");
+        return this.contents.getOrDefault("JSESSIONID", null);
     }
 
     public String getCookieIsLogin() {
