@@ -1,5 +1,6 @@
 package webserver.session;
 
+import model.User;
 import webserver.http.request.HttpRequest;
 
 import java.util.HashMap;
@@ -23,5 +24,11 @@ public class SessionManager {
     public static boolean isLogin(HttpRequest httpRequest) {
         String sessionId = httpRequest.getCookieSessionId();
         return (SessionManager.findSession(sessionId) != null);
+    }
+
+    public static void addUserToSession(String sessionId, User user) {
+        Session session = new Session(sessionId);
+        session.setAttribute(sessionId, user);
+        add(session);
     }
 }

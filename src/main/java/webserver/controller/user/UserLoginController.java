@@ -63,7 +63,7 @@ public class UserLoginController extends RequestController {
             httpResponse.addCookie(createSessionCookie(sessionId));
             httpResponse.addCookie(createLoginCookie());
 
-            addUserToSession(sessionId, user);
+            SessionManager.addUserToSession(sessionId, user);
 
             httpResponse.redirect(INDEX_HTML_PATH);
             return;
@@ -88,9 +88,5 @@ public class UserLoginController extends RequestController {
         return "logined=true; Path=/";
     }
 
-    private void addUserToSession(String sessionId, User user) {
-        Session session = new Session(sessionId);
-        session.setAttribute(sessionId, user);
-        SessionManager.add(session);
-    }
+
 }
