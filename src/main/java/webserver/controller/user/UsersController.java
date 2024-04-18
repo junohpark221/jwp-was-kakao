@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserListController extends RequestController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserListController.class);
+public class UsersController extends RequestController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UsersController.class);
     private static final String LOGIN_HTML_PATH = "/user/login.html";
 
     @Override

@@ -28,6 +28,6 @@ public class RequestMappingHandler {
             return resourceController;
         }
 
-        return ServiceMapper.getController(httpRequest.getPath());
+        return ControllerMapper.getController(httpRequest.getPath());
     }
 }
