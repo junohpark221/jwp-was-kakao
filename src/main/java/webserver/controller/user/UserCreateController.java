@@ -25,7 +25,7 @@ public class UserCreateController extends RequestController {
         try {
             User user = createUser(httpRequest.getContents());
             DataBase.addUser(user);
-            LOGGER.info(DataBase.findAll().toString());
+            LOGGER.info(DataBase.findAllUser().toString());
             httpResponse.redirect(INDEX_HTML_PATH);
         } catch (IllegalArgumentException e) {
             httpResponse.redirect(FORM_HTML_PATH);

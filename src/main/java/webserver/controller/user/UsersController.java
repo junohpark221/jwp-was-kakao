@@ -5,6 +5,8 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import db.DataBase;
+import model.User;
+import model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.controller.RequestController;
@@ -45,9 +47,8 @@ public class UsersController extends RequestController {
 
             Template template = handlebars.compile("/user/list");
 
-            Map<String, Object> users = new HashMap<>();
-            users.put("users", DataBase.findAll());
-            httpResponse.responseResource(template.apply(users).getBytes(), ResourceType.HTML);
+            Users users = new Users();
+            httpResponse.responseResource(template.apply(users.getValues()).getBytes(), ResourceType.HTML);
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
         }
