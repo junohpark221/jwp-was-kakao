@@ -2,27 +2,21 @@ package model;
 
 import java.util.Objects;
 
-import db.DataBase;
-
 public class User {
     private String userId;
-    private String password;
+    private Password password;
     private String name;
     private String email;
 
     public User(String userId, String password, String name, String email) {
         this.userId = userId;
-        this.password = password;
+        this.password = new Password(password);
         this.name = name;
         this.email = email;
     }
 
     public String getUserId() {
         return userId;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getName() {
@@ -34,7 +28,7 @@ public class User {
     }
 
     public boolean checkPassword(String password) {
-        return this.password.equals(password);
+        return this.password.isCorrectPassword(password);
     }
 
     @Override
