@@ -1,20 +1,19 @@
 package model;
 
-import db.DataBase;
-
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Users {
     private final Map<String, Object> values;
 
-    public Users() {
-        this.values = extractUsersFromDB();
+    public Users(Collection<User> allUser) {
+        this.values = extractUsersFromDB(allUser);
     }
 
-    private Map<String, Object> extractUsersFromDB() {
+    private Map<String, Object> extractUsersFromDB(Collection<User> allUser) {
         Map<String, Object> users = new HashMap<>();
-        users.put("users", DataBase.findAllUser());
+        users.put("users", allUser);
         return users;
     }
 

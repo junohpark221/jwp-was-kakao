@@ -34,7 +34,7 @@ public class RequestContents {
         return parseContents(contents);
     }
 
-    private Map<String, String> extractFromQueryParameters(String requestLine) throws UnsupportedEncodingException {
+    private Map<String, String> extractFromQueryParameters(String requestLine) {
         String url = extractUrl(requestLine);
         String[] splits = url.split("\\?");
         if (splits.length < 2) {

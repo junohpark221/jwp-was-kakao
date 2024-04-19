@@ -47,7 +47,7 @@ public class UsersController extends RequestController {
 
             Template template = handlebars.compile("/user/list");
 
-            Users users = new Users();
+            Users users = new Users(DataBase.findAllUser());
             httpResponse.responseResource(template.apply(users.getValues()).getBytes(), ResourceType.HTML);
         } catch (IOException e) {
             LOGGER.error(e.getMessage());

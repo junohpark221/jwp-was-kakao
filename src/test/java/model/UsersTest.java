@@ -3,8 +3,6 @@ package model;
 import db.DataBase;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UsersTest {
@@ -16,7 +14,7 @@ public class UsersTest {
         DataBase.addUser(user01);
         DataBase.addUser(user02);
 
-        Users users = new Users();
+        Users users = new Users(DataBase.findAllUser());
         assertThat(users.getValues().getOrDefault("users", null)).isNotNull();
     }
 }
