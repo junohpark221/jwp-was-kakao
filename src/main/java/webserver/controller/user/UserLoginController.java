@@ -5,12 +5,12 @@ import model.User;
 import webserver.controller.RequestController;
 import webserver.controller.resource.ResourceType;
 import webserver.http.request.HttpRequest;
-import webserver.http.request.RequestContents;
+import webserver.http.request.contents.RequestContents;
+import webserver.http.request.contents.RequestUserInfo;
 import webserver.http.response.HttpResponse;
 import webserver.session.Session;
 import webserver.session.SessionManager;
 
-import java.util.Map;
 import java.util.UUID;
 
 public class UserLoginController extends RequestController {
@@ -28,9 +28,10 @@ public class UserLoginController extends RequestController {
     public void doPost(HttpRequest httpRequest, HttpResponse httpResponse) {
         try {
             RequestContents requestContents = httpRequest.getContents();
+            RequestUserInfo requestUserInfo = requestContents.getRequestUserInfo();
 
-            String userId = requestContents.extractUserId();
-            String password = requestContents.extractPassword();
+            String userId = requestUserInfo.getUserId();
+            String password = requestUserInfo.getPassword();
 
             User user = DataBase.findUserById(userId);
 

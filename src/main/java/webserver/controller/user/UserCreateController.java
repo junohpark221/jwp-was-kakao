@@ -5,11 +5,10 @@ import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.http.request.HttpRequest;
-import webserver.http.request.RequestContents;
+import webserver.http.request.contents.RequestContents;
+import webserver.http.request.contents.RequestUserInfo;
 import webserver.http.response.HttpResponse;
 import webserver.controller.RequestController;
-
-import java.util.Map;
 
 public class UserCreateController extends RequestController {
     private static final String INDEX_HTML_PATH = "/index.html";
@@ -34,9 +33,14 @@ public class UserCreateController extends RequestController {
     }
 
     private User createUser(RequestContents requestContents) {
-        validateUserInfo(requestContents.extractUserId());
+        RequestUserInfo requestUserInfo = requestContents.getRequestUserInfo();
+
+        validateUserInfo(requestUserInfo.getUserId());
         return new User(
-                requestContents.extractUserId(), requestContents.extractPassword(), requestContents.extractUserName(), requestContents.extractEmail()
+                requestUserInfo.getUserId(),
+                requestUserInfo.getPassword(),
+                requestUserInfo.getPassword(),
+                requestUserInfo.getEmail()
         );
     }
 

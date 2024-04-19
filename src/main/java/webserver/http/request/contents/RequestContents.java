@@ -1,10 +1,9 @@
-package webserver.http.request;
+package webserver.http.request.contents;
 
 import utils.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -14,10 +13,13 @@ public class RequestContents {
     private static final String REQUEST_LINE_KEY = "Request-Line";
     private static final String CONTENT_LENGTH_KEY = "Content-Length";
 
+    private final RequestUserInfo requestUserInfo;
     private final Map<String, String> contents;
 
     public RequestContents(BufferedReader br, Map<String, String> request) throws IOException {
-        this.contents = extractContents(br, request);
+        Map<String, String> contents = extractContents(br, request);
+        this.requestUserInfo = new RequestUserInfo(contents);
+        this.contents = contents;
     }
 
     private Map<String, String> extractContents(BufferedReader br, Map<String, String> request) throws IOException {
@@ -61,19 +63,8 @@ public class RequestContents {
         }
         return queryParameters;
     }
-    public String extractUserId() {
-        return this.contents.getOrDefault("userId", null);
-    }
 
-    public String extractPassword() {
-        return this.contents.getOrDefault("password", null);
-    }
-
-    public String extractUserName() {
-        return this.contents.getOrDefault("name", null);
-    }
-
-    public String extractEmail() {
-        return this.contents.getOrDefault("email", null);
+    public RequestUserInfo getRequestUserInfo() {
+        return this.requestUserInfo;
     }
 }
